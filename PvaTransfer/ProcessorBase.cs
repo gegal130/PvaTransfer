@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 
 namespace PvaTransfer
 {
+    /// <summary>
+    /// Basisklasse für Verarbeitung.
+    /// Abgeleitete Klasse(n) müssen Process() und Cleanup Implementieren.
+    /// </summary>
     public abstract class ProcessorBase : IDisposable
     {
         #region Constructor

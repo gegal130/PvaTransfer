@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace PvaTransfer
 {
+    /// <summary>
+    /// Basisklasse (abstrakt) für Konfigurationsdaten (Verzeichnisse, Pfade).
+    /// Abgeleitete Klasse muss im Konstruktor die Initialisierung implementierung.
+    /// </summary>
     public abstract class ConfigBase
     {
         public string JsonConfigPath { get; protected init; } = string.Empty;

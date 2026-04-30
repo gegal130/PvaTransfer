@@ -7,8 +7,16 @@ using System.Threading.Tasks;
 
 namespace PvaTransfer
 {
+    /// <summary>
+    /// Hilfsklasse für Bestimmung der Verzeichnisse und Pfade
+    /// </summary>
     public  class TransferInfo
     {
+        /// <summary>
+        /// Erstelle neue Klasse mit Verzeichnissen und Pfaden für die Verarbeitung
+        /// </summary>
+        /// <param name="config">Konfiguration</param>
+        /// <param name="fileName">zu verarbeitender Dateiname (ohne Pfad, mit Extension). Daraus werden die Verarbeitungs-Verzeichnisse und -Pfade abgeleitet.</param>
         public TransferInfo(ConfigBase config, string fileName)
         {
             FileName = fileName;

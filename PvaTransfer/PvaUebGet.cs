@@ -14,14 +14,15 @@ namespace PvaTransfer
 {
     internal class Program
     {
-        const bool Verbose = true;
-
-        static string LogDirectory { get; set; } = "";
-        static string LogPath { get; set; } = "";
-
+        /// <summary>
+        /// PVA Transfer - Ueberweisungen (eingehend) PVA -> VAN.
+        /// Kommandozeilen Tool, Keine Parameter.
+        /// Konfiguration aus Config.json (im Verzeichnis des ausführbaren EXE)
+        /// </summary>
+        /// <returns>0 wenn alles ok, 1 bei Fehler (Exception)</returns>
         static int Main(string[] args)
         {
-            Console.WriteLine("VAN Dds Transfer - transfer new files VAN <-> DDS");
+            Console.WriteLine("PVA Transfer - Ueberweisungen (eingehend) PVA -> VAN");
 
             PvaConfig _config = new PvaConfig();
 
@@ -35,6 +36,8 @@ namespace PvaTransfer
                     }
                     catch (Exception ex)
                     {
+                        // Exception in der Verarbeitung
+
                         _pocessor.Log(ex);
                         return 1;
                     }
@@ -42,6 +45,8 @@ namespace PvaTransfer
             }
             catch (Exception e)
             {
+                // _processor kann nicht mal instantiiert werden
+
                 Console.WriteLine($"EXCEPTION creating PvaUeberweisungEingehendProcessor: {e}");
                 return 1;
             }

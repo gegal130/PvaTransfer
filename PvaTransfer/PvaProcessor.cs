@@ -13,6 +13,11 @@ using ICSharpCode.SharpZipLib.Zip;
 
 namespace PvaTransfer
 {
+    /// <summary>
+    /// Basisklasse (abstrakt) für PVA Verarbeitung.
+    /// Implementiert Initialisierung (FTP) und Cleanup().
+    /// Abgeleitete Klassen müssen Process() implementieren.
+    /// </summary>
     public abstract class PvaProcessor : ProcessorBase
     {
         #region Constructor & Init

@@ -9,13 +9,23 @@ using System.Threading.Tasks;
 
 namespace PvaTransfer
 {
+    /// <summary>
+    /// Klasse für die Verarbeitung von Überweisungen (eingehend) der PVA.
+    /// Implementiert Process().
+    /// </summary>
     public class PvaUeberweisungEingehendProcessor : PvaProcessor
     {
+        #region Constructor
+
         public PvaUeberweisungEingehendProcessor(PvaConfig config)
             : base(config)
         { }
 
         public override string ProcessingId => "PvaUebEin";
+
+        #endregion
+
+        #region Verarbeitung
 
         public override void Process()
         {
@@ -120,5 +130,7 @@ namespace PvaTransfer
             LogIndent = 2;
             Log($"TOTAL: {_tarGzCount} ARCHIVE, {_uebEinCount} UEBERWEISUNGEN (eingehend)");
         }
+
+        #endregion
     }
 }

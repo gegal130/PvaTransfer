@@ -8,14 +8,24 @@ using System.Threading.Tasks;
 
 namespace PvaTransfer
 {
+    /// <summary>
+    /// Implemntierung der Sammlung der Konfigurationsdaten (FTP, Verzeichnisse) für PVA.
+    /// </summary>
     public class PvaConfig : ConfigBase
     {
         public const string DefaultJsonConfigFile = "Config.json";
 
+        /// <summary>
+        /// Neue Klasse mit Standard-Konfigurationsdatei Config.Json (im Verzeichnis der EXE)
+        /// </summary>
         public PvaConfig()
             : this(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!, DefaultJsonConfigFile))
         { }
 
+        /// <summary>
+        /// Neue Klasse mit angegebener Konfiruationsdatei (json)
+        /// </summary>
+        /// <param name="jsonConfigFile">Pfad zur Konfigurationsdatei</param>
         public PvaConfig(string jsonConfigFile)
         {
             JsonConfigPath = Path.GetFullPath(jsonConfigFile);
