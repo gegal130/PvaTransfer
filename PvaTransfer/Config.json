@@ -1,0 +1,15 @@
+{
+  "LogDirectory": "\\\\SYN1\\NOTARIAT\\PVA\\UEBERWEISUNGEN_EIN_LOG",
+  "Ftp": {
+    "Host": "10.106.0.190",
+    "User": "VAN_FTP001",
+    "Password": "3V&/xK1+"
+  },
+  "PvaUeb2Van": {
+    "Pva2Van_UebEin_Ftp_Directory": "/pva/produktion",
+    "Pva2Van_UebEin_Ftp_Archive_Directory": "/pva/produktion_archiv",
+    "Pva2Van_UebEin_Directory": "\\\\SYN1\\NOTARIAT\\PVA\\UEBERWEISUNGEN_EIN",
+    "Pva2Van_UebEin_Archive_Directory": "\\\\SYN1\\NOTARIAT\\PVA\\UEBERWEISUNGEN_EIN_ARCHIV",
+    "Pva2Van_UebEin_Temp_Directory": "\\\\SYN1\\NOTARIAT\\PVA\\UEBERWEISUNGEN_EIN_TEMP"
+  }
+}
