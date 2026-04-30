@@ -32,7 +32,7 @@ namespace PvaTransfer
 
         public string FileName { get; private init; }
         public string FileNameWoExtension => Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(FileName));
-        public string FileJahr { get; private init; }
+        private string FileJahr { get; init; }
 
         public string FtpDir { get; private init; }
         public string FtpPath => Path.Combine(FtpDir, FileName);
@@ -46,6 +46,6 @@ namespace PvaTransfer
         public string LocalArchivePath => Path.Combine(LocalArchiveDir, FileName);
         public string LocalTempDir { get; private init; }
         public string LocalTempPath => Path.Combine(LocalTempDir, FileName);
-        public string LocalTempUnpachDir => Path.Combine(LocalTempDir, FileNameWoExtension);
+        public string LocalTempUnpackDir => Path.Combine(LocalTempDir, FileNameWoExtension);
     }
 }

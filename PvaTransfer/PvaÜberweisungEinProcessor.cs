@@ -13,27 +13,27 @@ namespace PvaTransfer
     /// Klasse für die Verarbeitung von Überweisungen (eingehend) der PVA.
     /// Implementiert Process().
     /// </summary>
-    public class PvaUeberweisungEingehendProcessor : PvaProcessor
+    /// <remarks>
+    /// Instantiiert den Prozessor für eingehende PVA Überweisungen
+    /// </remarks>
+    /// <param name="config">Konfiguration (FTP Zugang, Verzeichnisse)</param>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Spellchecker", "CRRSP08:A misspelled word has been found", Justification = "<Ausstehend>")]
+    public class PvaÜberweisungEinProcessor(PvaConfig config) : PvaProcessor(config)
     {
-        #region Constructor
-
-        public PvaUeberweisungEingehendProcessor(PvaConfig config)
-            : base(config)
-        { }
-
         public override string ProcessingId => "PvaUebEin";
-
-        #endregion
 
         #region Verarbeitung
 
+        /// <summary>
+        /// Verarbeitung der von der PVA eingehenden Überweisungen
+        /// </summary>
         public override void Process()
         {
             int _tarGzCount = 0;
             int _uebEinCount = 0;
 
             FtpListItem[] _ftpAllFiles = Ftp.GetListing(Config.RemoteDir);
-            FtpListItem[] _ftpPvaUebEinGzItems = _ftpAllFiles.Where(fi => fi.Name.StartsWith("BABILD") && fi.Name.EndsWith(".tar.gz")).ToArray();
+            FtpListItem[] _ftpPvaUebEinGzItems = [.. _ftpAllFiles.Where(fi => fi.Name.StartsWith("BABILD") && fi.Name.EndsWith(".tar.gz"))];
             
             LogIndent = 2;
             Log($"ARCHIVE {Config.RemoteDir} (FTP Server):");
@@ -42,7 +42,7 @@ namespace PvaTransfer
             {
                 LogIndent = 5;
                 _tarGzCount++;
-                TransferInfo _ti = new TransferInfo(Config, pvaUebEinGzItem.Name);
+                TransferInfo _ti = new(Config, pvaUebEinGzItem.Name);
 
                 Log($"{_tarGzCount:00} {_ti.FileName}");
 
@@ -57,10 +57,10 @@ namespace PvaTransfer
 
                 // -- 2 -- tar.gz Datein aus lokelem TEMP Ordner in Unterordner entpacken ----------------------------------
 
-                Directory.CreateDirectory(_ti.LocalTempUnpachDir);
+                Directory.CreateDirectory(_ti.LocalTempUnpackDir);
 
                 LogIndent += 2;
-                Log($"+ {_ti.LocalTempUnpachDir} (UNPACK)");
+                Log($"+ {_ti.LocalTempUnpackDir} (UNPACK)");
 
                 using (Stream inStream = File.OpenRead(_ti.LocalTempPath))
                 using (Stream gzipStream = new GZipInputStream(inStream))
@@ -74,7 +74,7 @@ namespace PvaTransfer
 
                 int _unpackedPdfFiles = 0;
                 LogIndent += 2;
-                string[] _unpackedFiles = Directory.GetFiles(_ti.LocalTempUnpachDir, "*.*");
+                string[] _unpackedFiles = Directory.GetFiles(_ti.LocalTempUnpackDir, "*.*");
 
                 foreach (string unpackedFile in _unpackedFiles)
                 {
@@ -97,9 +97,9 @@ namespace PvaTransfer
 
                 Directory.CreateDirectory(_ti.LocalDir);
 
-                foreach (string newPath in Directory.GetFiles(_ti.LocalTempUnpachDir, "*.*", SearchOption.TopDirectoryOnly))
+                foreach (string newPath in Directory.GetFiles(_ti.LocalTempUnpackDir, "*.*", SearchOption.TopDirectoryOnly))
                 {
-                    File.Copy(newPath, newPath.Replace(_ti.LocalTempUnpachDir, _ti.LocalDir), true);
+                    File.Copy(newPath, newPath.Replace(_ti.LocalTempUnpackDir, _ti.LocalDir), true);
                 }
 
                 // -- 4 -- entpackte Dateien aus TEMP Unterordner in ARCHIV kopieren ---------------------------------------
@@ -108,9 +108,9 @@ namespace PvaTransfer
 
                 Directory.CreateDirectory(_ti.LocalArchiveDir);
 
-                foreach (string newPath in Directory.GetFiles(_ti.LocalTempUnpachDir, "*.*", SearchOption.TopDirectoryOnly))
+                foreach (string newPath in Directory.GetFiles(_ti.LocalTempUnpackDir, "*.*", SearchOption.TopDirectoryOnly))
                 {
-                    File.Copy(newPath, newPath.Replace(_ti.LocalTempUnpachDir, _ti.LocalArchiveDir), true);
+                    File.Copy(newPath, newPath.Replace(_ti.LocalTempUnpackDir, _ti.LocalArchiveDir), true);
                 }
 
                 // -- 5 -- Datei am FTP Server in ARCHIV am FTP Server verschieben -----------------------------------------
@@ -120,8 +120,8 @@ namespace PvaTransfer
 
                 // -- 6 -- Datei in TEMP und Unterordner von TEMP mit entpackten Dateien löschen ---------------------------
 
-                Log($"- {_ti.LocalTempUnpachDir} (CLEANUP 1)");
-                Directory.Delete(_ti.LocalTempUnpachDir, true);
+                Log($"- {_ti.LocalTempUnpackDir} (CLEANUP 1)");
+                Directory.Delete(_ti.LocalTempUnpackDir, true);
 
                 Log($"- {_ti.LocalTempPath} (CLEANUP 2)");
                 File.Delete(_ti.LocalTempPath);

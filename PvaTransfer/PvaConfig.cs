@@ -26,6 +26,7 @@ namespace PvaTransfer
         /// Neue Klasse mit angegebener Konfiruationsdatei (json)
         /// </summary>
         /// <param name="jsonConfigFile">Pfad zur Konfigurationsdatei</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0063:Einfache using-Anweisung verwenden", Justification = "<Ausstehend>")]
         public PvaConfig(string jsonConfigFile)
         {
             JsonConfigPath = Path.GetFullPath(jsonConfigFile);

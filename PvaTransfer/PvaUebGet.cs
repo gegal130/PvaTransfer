@@ -20,15 +20,16 @@ namespace PvaTransfer
         /// Konfiguration aus Config.json (im Verzeichnis des ausführbaren EXE)
         /// </summary>
         /// <returns>0 wenn alles ok, 1 bei Fehler (Exception)</returns>
-        static int Main(string[] args)
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0063:Einfache using-Anweisung verwenden", Justification = "<Ausstehend>")]
+        static int Main()
         {
             Console.WriteLine("PVA Transfer - Ueberweisungen (eingehend) PVA -> VAN");
 
-            PvaConfig _config = new PvaConfig();
+            PvaConfig _config = new ();
 
             try
             {
-                using (PvaUeberweisungEingehendProcessor _pocessor = new PvaUeberweisungEingehendProcessor(_config))
+                using (PvaÜberweisungEinProcessor _pocessor = new(_config))
                 {
                     try
                     {
@@ -47,7 +48,7 @@ namespace PvaTransfer
             {
                 // _processor kann nicht mal instantiiert werden
 
-                Console.WriteLine($"EXCEPTION creating PvaUeberweisungEingehendProcessor: {e}");
+                Console.WriteLine($"EXCEPTION creating {nameof(PvaÜberweisungEinProcessor)}: {e}");
                 return 1;
             }
 

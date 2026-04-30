@@ -22,6 +22,10 @@ namespace PvaTransfer
     {
         #region Constructor & Init
 
+        /// <summary>
+        /// Instantiiert den Prozessor für eingehende PVA Überweisungen
+        /// </summary>
+        /// <param name="config">Konfiguration (FTP Zugang, Verzeichnisse)</param>
         public PvaProcessor(PvaConfig pvaConfig) 
             : base(pvaConfig)
         {
@@ -36,7 +40,7 @@ namespace PvaTransfer
             }
             catch (Exception e) 
             {
-                Exception _ex = new Exception("Verbindung zum FTP Server nicht möglich", e);
+                Exception _ex = new("Verbindung zum FTP Server nicht möglich", e);
                 Log(_ex, false);
                 throw _ex;
             }

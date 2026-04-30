@@ -88,7 +88,7 @@ namespace PvaTransfer
 
         public void Log(Exception ex, int logIndent, bool enableLoggingException = true)
         {
-            Logg($"EXCEPTION: {ex}", LogIndent, enableLoggingException);
+            Logg($"EXCEPTION: {ex}", logIndent, enableLoggingException);
         }
 
         public void Log(string msg, bool enableLoggingException = true)
@@ -101,6 +101,7 @@ namespace PvaTransfer
             Logg(msg, logIndent, enableLoggingException);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0063:Einfache using-Anweisung verwenden", Justification = "<Ausstehend>")]
         private void Logg(string msg, int logIndent, bool enableLoggingException = true)
         {
             string _msg = $"{new string(' ', logIndent)}{msg}";
@@ -109,14 +110,14 @@ namespace PvaTransfer
 
             try
             {
-                using (StreamWriter writer = new StreamWriter(LogPath, true))
+                using (StreamWriter writer = new(LogPath, true))
                 {
                     writer.WriteLine($"{DateTime.Now:G} [{ProcessingId}] {_msg}");
                 }
             }
             catch (Exception e)
             {
-                Exception _ex = new Exception("Fehler beim Erstellen des Protokolls", e);
+                Exception _ex = new("Fehler beim Erstellen des Protokolls", e);
                 Console.WriteLine($"EXCEPTION: {e}");
 
                 if (enableLoggingException)
